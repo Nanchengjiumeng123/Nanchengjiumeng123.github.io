@@ -1,0 +1,902 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yang Xin">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Spring依赖注入 spring依赖注入包括三种：1.setter注入，2.构造器注入，3.属性注入，  1.基于构造器注入 1234567891011@Servicepublic class UserServiceImpl &#123;    private final UserDao userDao;    @Autowired    public UserServiceImpl(User">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring依赖注入">
+<meta property="og:url" content="https://nanchengjiumeng123.top/2022/05/27/framework/spring/Spring%20IoC/2022-05-22_Spring%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="nanchengjiumeng123.top">
+<meta property="og:description" content="Spring依赖注入 spring依赖注入包括三种：1.setter注入，2.构造器注入，3.属性注入，  1.基于构造器注入 1234567891011@Servicepublic class UserServiceImpl &#123;    private final UserDao userDao;    @Autowired    public UserServiceImpl(User">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/banner/IMG_5892(20220826-144621).jpg">
+<meta property="article:published_time" content="2022-05-27T10:31:55.000Z">
+<meta property="article:modified_time" content="2025-05-23T10:54:07.295Z">
+<meta property="article:author" content="Yang Xin">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/banner/IMG_5892(20220826-144621).jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Spring依赖注入 - nanchengjiumeng123.top</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nanchengjiumeng123.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>wangwang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/banner/IMG_5892(20220826-144621).jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring依赖注入"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-27 18:31" pubdate>
+          2022年5月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Spring依赖注入</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="spring依赖注入"><a class="markdownIt-Anchor" href="#spring依赖注入"></a> Spring依赖注入</h1>
+<p>spring依赖注入包括三种：<strong>1.setter注入，2.构造器注入，3.属性注入</strong>，</p>
+<h1 id="1基于构造器注入"><a class="markdownIt-Anchor" href="#1基于构造器注入"></a> 1.基于构造器注入</h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> UserDao userDao;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserServiceImpl</span><span class="hljs-params">(UserDao userDao)</span> &#123;<br>        <span class="hljs-built_in">this</span>.userDao = userDao;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="2基于setter注入"><a class="markdownIt-Anchor" href="#2基于setter注入"></a> 2.基于setter注入</h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> &#123;<br>  <br>  <span class="hljs-keyword">private</span> UserDao userDao;<br>  <br>  <span class="hljs-meta">@Autowired</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUserDao</span><span class="hljs-params">(UserDao userDao)</span> &#123;<br>      <span class="hljs-built_in">this</span>.userDao = userDao;<br>  &#125;<br></code></pre></td></tr></table></figure>
+<h1 id="3基于filed注解注入"><a class="markdownIt-Anchor" href="#3基于filed注解注入"></a> 3.基于Filed(注解)注入</h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> &#123;<br>    <br>  <span class="hljs-meta">@Autowired</span><br>  <span class="hljs-comment">//@Inject</span><br>  <span class="hljs-keyword">private</span> UserDao userDao;<br>  <br>  <span class="hljs-comment">//简单的使用例子，下同</span><br>  <span class="hljs-keyword">public</span> List <span class="hljs-title function_">listFoo</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-keyword">return</span> userDao.list();<br>  &#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>我们使用最多的方式就是属性注入的方式：</p>
+<ol>
+<li>注入方式非常简单：加入要注入的字段，附上<code>@Autowired</code>，即可完成。</li>
+<li>使得整体代码简洁明了，看起来美观大方</li>
+</ol>
+</blockquote>
+<h1 id="4spring为什么推荐构造器注入方式"><a class="markdownIt-Anchor" href="#4spring为什么推荐构造器注入方式"></a> 4.spring为什么推荐构造器注入方式？</h1>
+<p>先来看看Spring在文档里怎么说：</p>
+<blockquote>
+<p>The Spring team generally advocates constructor injection as it enables one to implement application components as immutable objects and to ensure that required dependencies are not null. Furthermore constructor-injected components are always returned to client (calling) code in a fully initialized <a target="_blank" rel="noopener" href="http://state.As">state.As</a> a side note, a large number of constructor arguments is a bad code smell, implying that the class likely has too many responsibilities and should be refactored to better address proper separation of concerns.”</p>
+</blockquote>
+<p>简单的翻译一下：这个构造器注入的方式<strong>能够保证注入的组件不可变，并且确保需要的依赖不为空</strong>。此外，构造器注入的依赖总是能够在返回客户端（组件）代码的时候保证完全初始化的状态。与此同时，从代码质量的角度来看，一个巨大的构造方法通常代表着出现了代码异味，这个类可能承担了过多的责任。</p>
+<blockquote>
+<p>对于这个类可能承担了过多的责任这个问题，说明你的类当中有太多的责任，那么你要好好想一想是不是自己违反了类的<a target="_blank" rel="noopener" href="https://pdai.tech/md/dev-spec/spec/dev-th-solid.html#s%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3srp">单一性职责原则</a>，从而导致有这么多的依赖要注入。</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>依赖不可变</strong>：其实说的就是final关键字。</p>
+</li>
+<li>
+<p><strong>依赖不为空</strong>（省去了我们对其检查）：当要实例化UserServiceImpl的时候，由于自己实现了有参数的构造函数，所以不会调用默认构造函数，那么就需要Spring容器传入所需要的参数，所以就两种情况：1、有该类型的参数-&gt;传入，OK 。2：无该类型的参数-&gt;报错。</p>
+</li>
+<li>
+<p><strong>完全初始化的状态</strong>：这个可以跟上面的依赖不为空结合起来，向构造器传参之前，要确保注入的内容不为空，那么肯定要调用依赖组件的构造方法完成实例化。而在Java类加载实例化的过程中，构造方法是最后一步（之前如果有父类先初始化父类，然后自己的成员变量，最后才是构造方法），所以返回来的都是初始化之后的状态。</p>
+</li>
+</ul>
+<h1 id="5autowired-resource-inject"><a class="markdownIt-Anchor" href="#5autowired-resource-inject"></a> 5.@Autowired、@Resource、@Inject</h1>
+<p>Spring 支持使用<code>@Autowired</code>, <code>@Resource</code>,  <code>@Inject</code> 三个注解进行依赖注入。那@Autowired和@Resource以及@Inject等注解注入有何区别？</p>
+<h2 id="51-autowired"><a class="markdownIt-Anchor" href="#51-autowired"></a> 5.1 @Autowired</h2>
+<p>在Spring 2.5 引入了 @Autowired 注解:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Autowired &#123;<br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">required</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>从Autowired注解源码上看，可以使用在下面这些地方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.CONSTRUCTOR)</span> #构造函数<br><span class="hljs-meta">@Target(ElementType.METHOD)</span> #方法<br><span class="hljs-meta">@Target(ElementType.PARAMETER)</span> #方法参数<br><span class="hljs-meta">@Target(ElementType.FIELD)</span> #字段、枚举的常量<br><span class="hljs-meta">@Target(ElementType.ANNOTATION_TYPE)</span> #注解<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>字段属性</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">private</span> HelloDao helloDao;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>构造函数，方法参数</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> HelloDao helloDao;<br><br><span class="hljs-comment">//@Autowired</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">HelloServiceImpl</span><span class="hljs-params">(<span class="hljs-meta">@Autowired</span> HelloDao helloDao)</span> &#123;<br> <span class="hljs-built_in">this</span>.helloDao = helloDao;<br>&#125;<br><span class="hljs-comment">// 构造器注入也可不写@Autowired，也可以注入成功。</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>方法</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> HelloDao helloDao;<br><br><span class="hljs-keyword">public</span> HelloDao <span class="hljs-title function_">getHelloDao</span><span class="hljs-params">()</span> &#123;<br> <span class="hljs-keyword">return</span> helloDao;<br>&#125;<br><br><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setHelloDao</span><span class="hljs-params">(HelloDao helloDao)</span> &#123;<br>    <span class="hljs-built_in">this</span>.helloDao = helloDao;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>将@Autowired写在被注入的成员变量上，setter或者构造器上，就不用再xml文件中配置了。</p>
+<p>如果有多个类型一样的Bean候选者，则默认根据设定的属性名称进行获取。如 HelloDao 在Spring中有 helloWorldDao 和 helloDao 两个Bean候选者。</p>
+<p>首先根据类型获取，发现多个HelloDao，然后根据helloDao进行获取，如果要获取限定的其中一个候选者，结合@Qualifier进行注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-meta">@Qualifier(&quot;helloWorldDao&quot;)</span><br><span class="hljs-keyword">private</span> HelloDao helloDao;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>注入名称为helloWorldDao 的Bean组件。@Qualifier(“XXX”) 中的 XX是 Bean 的名称，所以 @Autowired 和 @Qualifier 结合使用时，自动注入的策略就从 byType 转变成 byName 了。</p>
+</blockquote>
+<p>注入名称为helloWorldDao 的Bean组件。<code>@Qualifier(&quot;XXX&quot;) </code>中的 XX是 Bean 的名称，所以 <code>@Autowired</code> 和 <code>@Qualifier</code> 结合使用时，自动注入的策略就从 byType 转变成 byName 了。</p>
+<p>多个类型一样的Bean候选者，也可以<code>@Primary</code>进行使用，设置首选的组件，也就是默认优先使用哪一个。</p>
+<p>注意：使用@Qualifier 时候，如何设置的指定名称的Bean不存在，则会抛出异常，如果防止抛出异常，可以使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Qualifier(&quot;xxxxyyyy&quot;)</span><br><span class="hljs-meta">@Autowired(required = false)</span><br><span class="hljs-keyword">private</span> HelloDao helloDao;<br></code></pre></td></tr></table></figure>
+<p>举例：</p>
+<p>声明一个接口UserDao与2个实现类UserDaoImpl、UserDaoImpl2，如下：</p>
+<p><strong>UserDao</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserDao</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sayHello</span><span class="hljs-params">(String data1, <span class="hljs-type">int</span> data2)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>UserDaoImpl</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserDaoImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserDao</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sayHello</span><span class="hljs-params">(String data1, <span class="hljs-type">int</span> data2)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;hello111...&quot;</span> + data1 + <span class="hljs-string">&quot;  &quot;</span> + data2);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>UserDaoImpl2</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserDaoImpl2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserDao</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sayHello</span><span class="hljs-params">(String data1, <span class="hljs-type">int</span> data2)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;hello222...&quot;</span> + data1+<span class="hljs-string">&quot;  &quot;</span> + data2);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>UserServiceImpl</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service(&quot;userService&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserDao userDao;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">gogo</span><span class="hljs-params">(String data1,<span class="hljs-type">int</span> data2)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;UserServiceImpl.gogo&quot;</span>);<br>        userDao.sayHello(data1,data2);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>然后通过测试类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span>&#123;<br>    ApplicationContext applicationContext= <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathXmlApplicationContext</span>(<span class="hljs-string">&quot;com/xxx/ioc/spring-config.xml&quot;</span>);<br>    <span class="hljs-type">UserService</span> <span class="hljs-variable">userService</span> <span class="hljs-operator">=</span> applicationContext.getBean(<span class="hljs-string">&quot;userService&quot;</span>, UserService.class);<br>    userService.gogo(<span class="hljs-string">&quot;xx1&quot;</span>,<span class="hljs-number">798</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>就会发现控制台报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name <span class="hljs-string">&#x27;userService&#x27;</span>: Unsatisfied dependency expressed through field <span class="hljs-string">&#x27;userDao&#x27;</span>; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of <span class="hljs-built_in">type</span> <span class="hljs-string">&#x27;com.itszt.ioc.dao.UserDao&#x27;</span> available: expected single matching bean but found 2: userDaoImpl,userDaoImpl2<br>... ...<br><br>Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of <span class="hljs-built_in">type</span> <span class="hljs-string">&#x27;com.itszt.ioc.dao.UserDao&#x27;</span> available: expected single matching bean but found 2: userDaoImpl,userDaoImpl2<br></code></pre></td></tr></table></figure>
+<p>加上<code>@Qualifier</code>注解，：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service(&quot;userService&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">UserService</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-meta">@Qualifier(value = &quot;userDaoImpl&quot;)</span><br>    <span class="hljs-keyword">private</span> UserDao userDao;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">gogo</span><span class="hljs-params">(String data1,<span class="hljs-type">int</span> data2)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;UserServiceImpl.gogo&quot;</span>);<br>        userDao.sayHello(data1,data2);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>则运行正常:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">17:35:58,153  INFO XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [com/xxx/ioc/spring-config.xml]<br>UserServiceImpl.gogo<br>hello111...xx1  798<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>简单总结</strong>：</li>
+</ul>
+<p>1、@Autowired是Spring自带的注解，通过<code>AutowiredAnnotationBeanPostProcessor</code> 类实现的依赖注入</p>
+<p>2、@Autowired可以作用在CONSTRUCTOR、METHOD、PARAMETER、FIELD、ANNOTATION_TYPE</p>
+<p>3、@Autowired默认是根据类型（byType ）进行自动装配的</p>
+<p>4、如果有多个类型一样的Bean候选者，需要指定按照名称（byName ）进行装配，则需要配合@Qualifier。</p>
+<blockquote>
+<p>指定名称后，如果Spring IOC容器中没有对应的组件bean抛出NoSuchBeanDefinitionException。也可以将@Autowired中required配置为false，如果配置为false之后，当没有找到相应bean的时候，系统不会抛异常。</p>
+<p>如果容器中有同种类型的多个实现，使用@Autowired则会抛出NoUniqueBeanDefinitionException异常，存在多个实现类会不知道选择哪一个而报错。所以说，存在多个实现类的情况，不能用byType 的形式。</p>
+</blockquote>
+<h2 id="52-resouce"><a class="markdownIt-Anchor" href="#52-resouce"></a> 5.2 @Resouce</h2>
+<ul>
+<li><strong>Resource注解源码</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;TYPE, FIELD, METHOD&#125;)</span><br><span class="hljs-meta">@Retention(RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Resource &#123;<br>    String <span class="hljs-title function_">name</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-comment">// 其他省略</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>从Resource注解源码上看，可以使用在下面这些地方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span> #接口、类、枚举、注解<br><span class="hljs-meta">@Target(ElementType.FIELD)</span> #字段、枚举的常量<br><span class="hljs-meta">@Target(ElementType.METHOD)</span> #方法<br></code></pre></td></tr></table></figure>
+<p>name 指定注入指定名称的组件。</p>
+<ul>
+<li><strong>字段属性</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Resouce</span><br><span class="hljs-keyword">private</span> HelloDao helloDao;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>同理，如果有多个候选bean，则也会抛出NoUniqueBeanDefinitionException异常</p>
+</blockquote>
+<p>也可以直接指定注入的bean，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Resource(name = &quot;userDaoImpl&quot;)</span><br><span class="hljs-keyword">private</span> UserDao userDao ;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>name 的作用类似 @Qualifier，所以Autowired</p>
+</blockquote>
+<ul>
+<li><strong>简单总结</strong>：</li>
+</ul>
+<p>1、@Resource是JSR250规范的实现，在javax.annotation包下</p>
+<p>2、@Resource可以作用TYPE、FIELD、METHOD上</p>
+<p>3、@Resource是默认根据属性名称进行自动装配的，如果有多个类型一样的Bean候选者，则可以通过name进行指定进行注入</p>
+<h2 id="53-inject"><a class="markdownIt-Anchor" href="#53-inject"></a> 5.3 @Inject</h2>
+<ul>
+<li><strong>Inject注解源码</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123; METHOD, CONSTRUCTOR, FIELD &#125;)</span><br><span class="hljs-meta">@Retention(RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Inject &#123;&#125;<br></code></pre></td></tr></table></figure>
+<p>从Inject注解源码上看，可以使用在下面这些地方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.CONSTRUCTOR)</span> #构造函数<br><span class="hljs-meta">@Target(ElementType.METHOD)</span> #方法<br><span class="hljs-meta">@Target(ElementType.FIELD)</span> #字段、枚举的常量<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>字段属性</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Inject</span><br><span class="hljs-keyword">private</span> HelloDao helloDao;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>同理，如果有多个候选bean，则也会抛出NoUniqueBeanDefinitionException异常</p>
+</blockquote>
+<p>也可以直接指定注入的bean，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Inject</span><br><span class="hljs-meta">@Named(name = &quot;userDaoImpl&quot;)</span><br><span class="hljs-keyword">private</span> UserDao userDao ;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>name 的作用类似 @Qualifier，所以Autowired</p>
+</blockquote>
+<ul>
+<li><strong>简单总结</strong>：</li>
+</ul>
+<p>1、@Inject是JSR330 (Dependency Injection for Java)中的规范，需要导入javax.inject.Inject jar包 ，才能实现注入</p>
+<p>2、@Inject可以作用CONSTRUCTOR、METHOD、FIELD上</p>
+<p>3、@Inject是根据类型进行自动装配的，如果需要按名称进行装配，则需要配合@Named；</p>
+<h1 id="6autowired-resource-inject总结"><a class="markdownIt-Anchor" href="#6autowired-resource-inject总结"></a> 6.@Autowired、@Resource、@Inject总结</h1>
+<p>1、@Autowired是Spring自带的，@Resource是JSR250规范实现的，@Inject是JSR330规范实现的。</p>
+<p>2、@Autowired、@Inject用法基本一样，不同的是@Inject没有required属性。</p>
+<p>3、@Autowired、@Inject是默认按照<strong>类型</strong>匹配的，@Resource是按照<strong>名称</strong>匹配的。</p>
+<p>4、@Autowired如果需要按照名称匹配需要和@Qualifier一起使用，@Inject和@Named一起使用，@Resource则通过name进行指定。</p>
+<h1 id="7read-more"><a class="markdownIt-Anchor" href="#7read-more"></a> 7.Read more</h1>
+<p>🍭:<a target="_blank" rel="noopener" href="https://pdai.tech/md/spring/spring-x-framework-ioc.html">https://pdai.tech/md/spring/spring-x-framework-ioc.html</a></p>
+<p>🍭:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/diandianquanquan/p/11518365.html">https://www.cnblogs.com/diandianquanquan/p/11518365.html</a></p>
+<hr />
+<p><strong>博客说明</strong></p>
+<blockquote>
+<p>文章所涉及的资料来自互联网整理和个人总结，意在于个人学习和经验汇总，不用于任何的商业用途。如有侵权，请联系本人删除。谢谢！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%A1%86%E6%9E%B6/" class="category-chain-item">框架</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%A1%86%E6%9E%B6/Spring/" class="category-chain-item">Spring</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%A1%86%E6%9E%B6/Spring/Spring-IoC/" class="category-chain-item">Spring IoC</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Spring/" class="print-no-link">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring依赖注入</div>
+      <div>https://nanchengjiumeng123.top/2022/05/27/framework/spring/Spring IoC/2022-05-22_Spring依赖注入/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yang Xin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/11/framework/zookeeper/2022-09-11_zookeeper%E7%AE%80%E4%BB%8B/" title="zookeeper简介">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">zookeeper简介</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/27/framework/spring/Spring%20IoC/2022-05-27_Spring%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/" title="Spring循环依赖">
+                        <span class="hidden-mobile">Spring循环依赖</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <span>Blog</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.0/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":200,"height":400},"mobile":{"show":false},"log":false});</script></body>
+</html>
