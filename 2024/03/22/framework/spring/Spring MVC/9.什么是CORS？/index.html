@@ -19,12 +19,12 @@
   <meta name="author" content="Yang Xin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是CORS？ CORS（Cross-Origin Resource Sharing，跨域资源共享）是一种用于在浏览器中安全地允许跨域请求的机制。它规定了当一个网页请求访问另一个域（源）上的资源时，服务器必须显式允许这种访问。CORS通过设置特定的HTTP头部来控制哪些资源可以被哪些源访问。  背景和问题 在Web应用中，浏览器出于安全考虑，默认会阻止从一个域（源）上的网页向另一个域请求资源，">
+    <meta name="description" content="什么是CORS？ CORS（Cross-Origin Resource Sharing，跨域资源共享）是一种用于在浏览器中安全地允许跨域请求的机制。它规定了当一个网页请求访问另一个域（源）上的资源时，服务器必须显式允许这种访问。CORS通过设置特定的HTTP头部来控制哪些资源可以被哪些源访问。 背景和问题 在Web应用中，浏览器出于安全考虑，默认会阻止从一个域（源）上的网页向另一个域请求资源，这被">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CORS">
 <meta property="og:url" content="https://nanchengjiumeng123.top/2024/03/22/framework/spring/Spring%20MVC/9.%E4%BB%80%E4%B9%88%E6%98%AFCORS%EF%BC%9F/index.html">
 <meta property="og:site_name" content="nanchengjiumeng123.top">
-<meta property="og:description" content="什么是CORS？ CORS（Cross-Origin Resource Sharing，跨域资源共享）是一种用于在浏览器中安全地允许跨域请求的机制。它规定了当一个网页请求访问另一个域（源）上的资源时，服务器必须显式允许这种访问。CORS通过设置特定的HTTP头部来控制哪些资源可以被哪些源访问。  背景和问题 在Web应用中，浏览器出于安全考虑，默认会阻止从一个域（源）上的网页向另一个域请求资源，">
+<meta property="og:description" content="什么是CORS？ CORS（Cross-Origin Resource Sharing，跨域资源共享）是一种用于在浏览器中安全地允许跨域请求的机制。它规定了当一个网页请求访问另一个域（源）上的资源时，服务器必须显式允许这种访问。CORS通过设置特定的HTTP头部来控制哪些资源可以被哪些源访问。 背景和问题 在Web应用中，浏览器出于安全考虑，默认会阻止从一个域（源）上的网页向另一个域请求资源，这被">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/wn3p54njnns.jpg">
 <meta property="article:published_time" content="2024-03-22T02:51:33.000Z">
@@ -280,12 +280,12 @@
             
               <div class="markdown-body">
                 
-                <h2 id="什么是cors"><a class="markdownIt-Anchor" href="#什么是cors"></a> 什么是CORS？</h2>
+                <h2 id="什么是CORS？">什么是CORS？</h2>
 <p>CORS（Cross-Origin Resource Sharing，跨域资源共享）是一种用于在浏览器中安全地允许跨域请求的机制。<code>它规定了当一个网页请求访问另一个域（源）上的资源时，服务器必须显式允许这种访问。CORS通过设置特定的HTTP头部来控制哪些资源可以被哪些源访问</code>。</p>
-<h3 id="背景和问题"><a class="markdownIt-Anchor" href="#背景和问题"></a> 背景和问题</h3>
+<h3 id="背景和问题">背景和问题</h3>
 <p>在Web应用中，浏览器出于安全考虑，默认会阻止从一个域（源）上的网页向另一个域请求资源，这被称为<code>“同源策略”</code>。<strong>同源策略限制了从不同源加载的脚本的交互，防止了恶意网站窃取数据或执行未授权操作</strong>。</p>
 <p>然而，实际开发中经常需要跨域请求资源，例如，前端应用需要从不同的API获取数据。CORS提供了一种机制，使服务器可以明确地告知浏览器，哪些跨域请求是被允许的。</p>
-<h3 id="cors的工作原理"><a class="markdownIt-Anchor" href="#cors的工作原理"></a> CORS的工作原理</h3>
+<h3 id="CORS的工作原理">CORS的工作原理</h3>
 <p>CORS通过以下几种HTTP头部来实现跨域资源共享：</p>
 <ol>
 <li><strong><code>Access-Control-Allow-Origin</code></strong>：指定哪些源可以访问资源。例如，<code>Access-Control-Allow-Origin: http://example.com</code>表示只有<code>http://example.com</code>可以访问资源。可以设置为<code>*</code>以允许所有源。</li>
@@ -295,16 +295,16 @@
 <li><strong><code>Access-Control-Expose-Headers</code></strong>：指定哪些头部可以在响应中暴露给浏览器脚本。</li>
 <li><strong><code>Access-Control-Max-Age</code></strong>：指示结果可以被缓存多长时间（以秒为单位）。</li>
 </ol>
-<h3 id="简单请求与预检请求"><a class="markdownIt-Anchor" href="#简单请求与预检请求"></a> 简单请求与预检请求</h3>
+<h3 id="简单请求与预检请求">简单请求与预检请求</h3>
 <p>CORS请求分为简单请求（Simple Requests）和预检请求（Preflight Requests）两种。</p>
-<h4 id="简单请求"><a class="markdownIt-Anchor" href="#简单请求"></a> 简单请求</h4>
+<h4 id="简单请求">简单请求</h4>
 <p>简单请求是满足以下条件的请求：</p>
 <ul>
 <li>使用以下方法之一：<code>GET</code>、<code>HEAD</code>、<code>POST</code>。</li>
 <li>仅使用安全的HTTP头部字段：<code>Accept</code>、<code>Accept-Language</code>、<code>Content-Language</code>、<code>Content-Type</code>（但Content-Type仅限于<code>application/x-www-form-urlencoded</code>、<code>multipart/form-data</code>、<code>text/plain</code>）。</li>
 </ul>
 <p>对于简单请求，浏览器会直接发送请求，并根据响应中的CORS头部决定是否允许跨域访问。</p>
-<h4 id="预检请求"><a class="markdownIt-Anchor" href="#预检请求"></a> 预检请求</h4>
+<h4 id="预检请求">预检请求</h4>
 <p>CORS pre-flight请求是一种以<code>OPTIONS</code>方法发送的HTTP请求，浏览器在执行实际的跨域请求之前发送这个请求，以了解服务器是否允许使用特定的HTTP方法和头信息进行跨域请求。这个请求由浏览器自动发起，而不是由客户端代码（JavaScript）直接触发。目的就是<code>以确认服务器是否允许跨域请求，避免未经授权的跨域访问</code>。如果服务器允许，该预检请求返回的响应中包含相应的CORS头信息，实际请求才会被发送。</p>
 <p>预检请求包含以下头部：</p>
 <ul>
@@ -329,16 +329,16 @@
 <blockquote>
 <p>如果预检请求的响应允许实际请求，则浏览器会继续发送实际的跨域请求。否则，实际请求会被浏览器阻止。</p>
 </blockquote>
-<h3 id="实例"><a class="markdownIt-Anchor" href="#实例"></a> 实例</h3>
+<h3 id="实例">实例</h3>
 <p>假设一个前端应用位于<code>http://example.com</code>，它需要访问位于<code>http://api.example.com/data</code>获取资源。</p>
-<h4 id="预检请求-2"><a class="markdownIt-Anchor" href="#预检请求-2"></a> 预检请求</h4>
+<h4 id="预检请求-v2">预检请求</h4>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">OPTIONS</span> <span class="hljs-string">/data</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>api.example.com<br><span class="hljs-attribute">Origin</span><span class="hljs-punctuation">: </span>http://example.com<br><span class="hljs-attribute">Access-Control-Request-Method</span><span class="hljs-punctuation">: </span>PUT<br><span class="hljs-attribute">Access-Control-Request-Headers</span><span class="hljs-punctuation">: </span>Content-Type, X-Custom-Header<br></code></pre></td></tr></table></figure>
-<h4 id="预检响应"><a class="markdownIt-Anchor" href="#预检响应"></a> 预检响应</h4>
+<h4 id="预检响应">预检响应</h4>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">200</span> OK<br><span class="hljs-attribute">Access-Control-Allow-Origin</span><span class="hljs-punctuation">: </span>http://example.com<br><span class="hljs-attribute">Access-Control-Allow-Methods</span><span class="hljs-punctuation">: </span>GET, POST, PUT, DELETE<br><span class="hljs-attribute">Access-Control-Allow-Headers</span><span class="hljs-punctuation">: </span>Content-Type, X-Custom-Header<br><span class="hljs-attribute">Access-Control-Max-Age</span><span class="hljs-punctuation">: </span>86400<br></code></pre></td></tr></table></figure>
-<h3 id="实际请求"><a class="markdownIt-Anchor" href="#实际请求"></a> 实际请求</h3>
+<h3 id="实际请求">实际请求</h3>
 <p>如果预检请求成功，浏览器将发送实际的跨域请求。</p>
 <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/data</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>api.example.com<br><span class="hljs-attribute">Origin</span><span class="hljs-punctuation">: </span>http://example.com<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json<br><span class="hljs-attribute">X-Custom-Header</span><span class="hljs-punctuation">: </span>custom-value<br><br><span class="language-json"><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;example&quot;</span> <span class="hljs-punctuation">&#125;</span></span><br></code></pre></td></tr></table></figure>
-<h2 id="cors处理"><a class="markdownIt-Anchor" href="#cors处理"></a> CORS处理</h2>
+<h2 id="CORS处理">CORS处理</h2>
 <p>最后再来看一下CORS处理。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java">   <span class="hljs-comment">//是否是CORS请求，是则对其处理</span><br>	<span class="hljs-keyword">if</span> (CorsUtils.isCorsRequest(request)) &#123;<br>		<span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">globalConfig</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.globalCorsConfigSource.getCorsConfiguration(request);<br>     <br>		<span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">handlerConfig</span> <span class="hljs-operator">=</span> getCorsConfiguration(handler, request);<br>		<span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> (globalConfig != <span class="hljs-literal">null</span> ? globalConfig.combine(handlerConfig) : handlerConfig);<br>     <br>		executionChain = getCorsHandlerExecutionChain(request, executionChain, config);<br>	&#125;<br><br> getCorsHandlerExecutionChain------&gt;<br><span class="hljs-keyword">protected</span> HandlerExecutionChain <span class="hljs-title function_">getCorsHandlerExecutionChain</span><span class="hljs-params">(HttpServletRequest request,</span><br><span class="hljs-params">		HandlerExecutionChain chain, <span class="hljs-meta">@Nullable</span> CorsConfiguration config)</span> &#123;<br><br>   <span class="hljs-comment">//如果是预检请求（Pre-flight Request），返回专门的PreFlightHandler处理链</span><br>	<span class="hljs-keyword">if</span> (CorsUtils.isPreFlightRequest(request)) &#123;<br>		HandlerInterceptor[] interceptors = chain.getInterceptors();<br>		chain = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HandlerExecutionChain</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">PreFlightHandler</span>(config), interceptors);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>     <span class="hljs-comment">//对于实际的CORS请求，在处理链中添加一个CORS拦截器</span><br>		chain.addInterceptor(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CorsInterceptor</span>(config));<br>	&#125;<br>	<span class="hljs-keyword">return</span> chain;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>Spring会判断当前请求是否是CORSCross-Origin Resource Sharing，跨域资源共享）请求。它通过在处理链中添加CORS相关的拦截器来处理跨域请求。</p>
@@ -346,7 +346,7 @@
 <p><code>如果请求是CORS预检请求（Pre-flight Request），则通过</code>getPreFlightHandlerExecutionChain方法返回一个专门处理预检请求的HandlerExecutionChain.</p>
 <p><code>对于实际的CORS请求，通过getCorsHandlerExecutionChain</code>方法在处理链中添加一个CORS拦截器。</p>
 </blockquote>
-<h2 id="cors-拦截器"><a class="markdownIt-Anchor" href="#cors-拦截器"></a> CORS 拦截器</h2>
+<h2 id="CORS-拦截器">CORS 拦截器</h2>
 <p><code>CorsInterceptor</code>是实现跨域资源共享的核心拦截器。它会检查请求的CORS头部信息，并根据配置的CORS策略处理请求。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CorsInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HandlerInterceptorAdapter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CorsConfigurationSource</span> &#123;<br><br>	<span class="hljs-meta">@Nullable</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> CorsConfiguration config;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">CorsInterceptor</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> CorsConfiguration config)</span> &#123;<br>		<span class="hljs-built_in">this</span>.config = config;<br>	&#125;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>		<span class="hljs-keyword">return</span> corsProcessor.processRequest(<span class="hljs-built_in">this</span>.config, request, response);<br>	&#125;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-meta">@Nullable</span><br>	<span class="hljs-keyword">public</span> CorsConfiguration <span class="hljs-title function_">getCorsConfiguration</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.config;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>综上所述，Spring处理CORS请求的完整流程如下：</p>
@@ -359,7 +359,7 @@
 <li>最终处理器处理请求，并返回响应。</li>
 </ol>
 <p>通过这种方式，Spring MVC可以灵活而有效地处理各种CORS请求。</p>
-<hr />
+<hr>
 <p><strong>博客说明</strong></p>
 <blockquote>
 <p>文章所涉及的资料来自互联网整理和个人总结，意在于个人学习和经验汇总，不用于任何的商业用途。如有侵权，请联系本人删除。谢谢！</p>

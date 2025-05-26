@@ -19,12 +19,12 @@
   <meta name="author" content="Yang Xin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="何为HandlerMapping、HandlerAdapter？  1.前言 现在回头来看，SpringMVC整体流程就已经很简单了。但是我们一直没有解释HandlerMapping、HandlerAdapter。 我们在前面写过这么一段代码： 1234567891011@Controllerpublic class HelloController&#123;     &#x2F;&#x2F;真实访问地址 : 项目">
+    <meta name="description" content="何为HandlerMapping、HandlerAdapter？ 1.前言 现在回头来看，SpringMVC整体流程就已经很简单了。但是我们一直没有解释HandlerMapping、HandlerAdapter。 我们在前面写过这么一段代码： 1234567891011@Controllerpublic class HelloController&#123;     &#x2F;&#x2F;真实访问地址 : 项目名&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="何为HandlerMapping、HandlerAdapter？">
 <meta property="og:url" content="https://nanchengjiumeng123.top/2024/02/19/framework/spring/Spring%20MVC/6.%E4%BD%95%E4%B8%BAHandlerMapping%E3%80%81HandlerAdapter%EF%BC%9F/index.html">
 <meta property="og:site_name" content="nanchengjiumeng123.top">
-<meta property="og:description" content="何为HandlerMapping、HandlerAdapter？  1.前言 现在回头来看，SpringMVC整体流程就已经很简单了。但是我们一直没有解释HandlerMapping、HandlerAdapter。 我们在前面写过这么一段代码： 1234567891011@Controllerpublic class HelloController&#123;     &#x2F;&#x2F;真实访问地址 : 项目">
+<meta property="og:description" content="何为HandlerMapping、HandlerAdapter？ 1.前言 现在回头来看，SpringMVC整体流程就已经很简单了。但是我们一直没有解释HandlerMapping、HandlerAdapter。 我们在前面写过这么一段代码： 1234567891011@Controllerpublic class HelloController&#123;     &#x2F;&#x2F;真实访问地址 : 项目名&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/2341716388878_.pic.jpg">
 <meta property="article:published_time" content="2024-02-19T02:51:33.000Z">
@@ -280,19 +280,19 @@
             
               <div class="markdown-body">
                 
-                <h1 id="何为handlermapping-handleradapter"><a class="markdownIt-Anchor" href="#何为handlermapping-handleradapter"></a> 何为HandlerMapping、HandlerAdapter？</h1>
-<h1 id="1前言"><a class="markdownIt-Anchor" href="#1前言"></a> 1.前言</h1>
+                <h1>何为HandlerMapping、HandlerAdapter？</h1>
+<h1>1.前言</h1>
 <p>现在回头来看，SpringMVC整体流程就已经很简单了。但是我们一直没有解释HandlerMapping、HandlerAdapter。</p>
 <p>我们在前面写过这么一段代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloController</span>&#123;<br> <br>    <span class="hljs-comment">//真实访问地址 : 项目名/hello</span><br>    <span class="hljs-meta">@RequestMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">(Model model)</span>&#123;<br>        <span class="hljs-comment">//封装数据</span><br>        model.addAttribute(<span class="hljs-string">&quot;msg&quot;</span>,<span class="hljs-string">&quot;HelloAnnotationMVC!&quot;</span>); <br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;<span class="hljs-comment">//会被视图解析器处理</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>并且在XML里配置：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--映射注解的handlerMapping--&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br>  <br><span class="hljs-comment">&lt;!--映射注解的handlerAdapter--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<h1 id="2handlermapping"><a class="markdownIt-Anchor" href="#2handlermapping"></a> 2.HandlerMapping</h1>
+<h1>2.HandlerMapping</h1>
 <p><strong>查找-返回处理器</strong>：<code>HandlerMapping</code> 负责将传入的 HTTP 请求映射到相应的处理器（即控制器）上。它的主要职责是DispatcherServlet根据Http请求，通过配置的 <code>HandlerMapping</code> 实例来查找处理该请求的处理器（控制器）。</p>
 <blockquote>
 <p>上文中，<code>RequestMappingHandlerMapping</code> 会根据 <code>/hello</code> URL 将请求映射到 <code>hello</code> 方法。</p>
 </blockquote>
-<h2 id="21-主要的-handlermapping-实现类"><a class="markdownIt-Anchor" href="#21-主要的-handlermapping-实现类"></a> 2.1 主要的 HandlerMapping 实现类</h2>
+<h2 id="2-1-主要的-HandlerMapping-实现类">2.1 主要的 HandlerMapping 实现类</h2>
 <ol>
 <li>
 <p><strong><code>RequestMappingHandlerMapping</code></strong></p>
@@ -364,7 +364,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="22-处理优先级"><a class="markdownIt-Anchor" href="#22-处理优先级"></a> 2.2 处理优先级</h2>
+<h2 id="2-2-处理优先级">2.2 处理优先级</h2>
 <p>Spring MVC 在处理请求时，会根据一定的优先级顺序调用 <code>HandlerMapping</code>。默认情况下，Spring 会自动注册并配置以下 <code>HandlerMapping</code> 实现，按顺序尝试查找处理器：</p>
 <ol>
 <li><code>RequestMappingHandlerMapping</code></li>
@@ -373,12 +373,12 @@
 <li><code>ControllerClassNameHandlerMapping</code></li>
 </ol>
 <p>这个顺序可以通过设置 <code>Order</code> 属性来调整，确保请求能够按照预期的方式被正确映射到处理器。</p>
-<h1 id="3handleradapter"><a class="markdownIt-Anchor" href="#3handleradapter"></a> 3.HandlerAdapter</h1>
+<h1>3.HandlerAdapter</h1>
 <p><strong>调用处理器</strong>：一旦 <code>HandlerMapping</code> 找到处理器，<code>DispatcherServlet</code> 会委托 <code>HandlerAdapter</code> 来实际调用处理器来处理请求。它的主要职责是根据处理器的类型调用适当的方法来处理请求，并返回一个 <code>ModelAndView</code> 对象。然后<code>DispatcherServlet</code> 使用返回的 <code>ModelAndView</code> 对象，通过 <code>ViewResolver</code> 来解析视图并渲染响应。</p>
 <blockquote>
 <p>对于上面的控制器方法，<code>RequestMappingHandlerAdapter</code> 会调用 <code>hello</code> 方法，并返回视图名称 <code>hello</code>。</p>
 </blockquote>
-<h2 id="31-主要的-handleradapter-实现类"><a class="markdownIt-Anchor" href="#31-主要的-handleradapter-实现类"></a> 3.1 主要的 HandlerAdapter 实现类</h2>
+<h2 id="3-1-主要的-HandlerAdapter-实现类">3.1 主要的 HandlerAdapter 实现类</h2>
 <ol>
 <li>
 <p><strong><code>RequestMappingHandlerAdapter</code></strong></p>
@@ -416,7 +416,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RouterConfig</span> &#123;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> RouterFunction&lt;ServerResponse&gt; <span class="hljs-title function_">route</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> RouterFunctions.route(RequestPredicates.GET(<span class="hljs-string">&quot;/hello&quot;</span>), request -&gt; ServerResponse.ok().bodyValue(<span class="hljs-string">&quot;Hello, World&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 </li>
 </ol>
-<h2 id="32-总结"><a class="markdownIt-Anchor" href="#32-总结"></a> 3.2 总结</h2>
+<h2 id="3-2-总结">3.2 总结</h2>
 <p>Spring 提供了多个 <code>HandlerAdapter</code> 实现，以支持不同类型的处理器：他们可以同时使用。DispatcherServlet会根据<code>HandlerMapping</code>返回的<code>HandlerExecutionChain</code>，获取对应的Handler，不同的Handler会有不同的控制器进行处理。</p>
 <ul>
 <li><code>RequestMappingHandlerAdapter</code>：处理基于注解的控制器方法。</li>
@@ -424,7 +424,7 @@
 <li><code>SimpleServletHandlerAdapter</code>：处理标准的 Servlet。</li>
 <li><code>HandlerFunctionAdapter</code>：处理函数式编程风格的处理器。</li>
 </ul>
-<h1 id="4完整的请求处理流程"><a class="markdownIt-Anchor" href="#4完整的请求处理流程"></a> 4.完整的请求处理流程</h1>
+<h1>4.完整的请求处理流程</h1>
 <p>以下是一个完整的请求处理流程：</p>
 <ol>
 <li><strong>接收请求</strong>：<code>DispatcherServlet</code> 接收 HTTP 请求。</li>
@@ -435,16 +435,16 @@
 <li><strong>解析视图</strong>：<code>DispatcherServlet</code> 使用 <code>ViewResolver</code> 将视图名称解析为实际的视图对象。</li>
 <li><strong>渲染视图</strong>：视图对象渲染响应，将结果返回给客户端。</li>
 </ol>
-<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/5220087-3c0f59d3c39a12dd-20240521054430984.png" srcset="/img/loading.gif" lazyload alt="" /></p>
-<hr />
-<h1 id="5handlerexecutionchain"><a class="markdownIt-Anchor" href="#5handlerexecutionchain"></a> 5.HandlerExecutionChain</h1>
+<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/5220087-3c0f59d3c39a12dd-20240521054430984.png" srcset="/img/loading.gif" lazyload alt=""></p>
+<hr>
+<h1>5.HandlerExecutionChain</h1>
 <p><code>HandlerExecutionChain</code> 是 Spring MVC 中用于封装处理器（Handler）及其相关的拦截器链（Interceptor Chain）的类。当 <code>HandlerMapping</code> 确定了哪个处理器将处理请求时，它返回一个 <code>HandlerExecutionChain</code> 实例，这个实例不仅包含处理器，还包含一系列在处理器执行前后运行的拦截器。</p>
-<h2 id="51-主要职责"><a class="markdownIt-Anchor" href="#51-主要职责"></a> 5.1 主要职责</h2>
+<h2 id="5-1-主要职责">5.1 主要职责</h2>
 <ul>
 <li><strong>封装处理器</strong>：包含用于处理当前请求的处理器对象。</li>
 <li><strong>封装拦截器链</strong>：包含在处理请求之前或之后运行的一系列拦截器。</li>
 </ul>
-<h2 id="52-组件和结构"><a class="markdownIt-Anchor" href="#52-组件和结构"></a> 5.2 组件和结构</h2>
+<h2 id="5-2-组件和结构">5.2 组件和结构</h2>
 <p><code>HandlerExecutionChain</code> 主要由以下组件组成：</p>
 <ol>
 <li><strong>Handler</strong>：实际处理请求的控制器对象。</li>
@@ -453,21 +453,21 @@
 <p>我们在前面说过，它的主要职责是DispatcherServlet根据Http请求，通过配置的 <code>HandlerMapping</code> 实例来查找处理该请求的处理器（控制器）。下面来看它是如何查找对应的Handler的。</p>
 <p>在Spring框架中，<code>HandlerMapping</code>并不是一个<code>Map</code>，尽管它在某些方面具有类似<code>Map</code>的功能。<code>HandlerMapping</code>是Spring MVC中的一个接口，用于将HTTP请求映射到处理器（Handler）。它的主要作用是根据请求的URL、HTTP方法等信息来确定应该调用哪个处理器来处理该请求。</p>
 <p>我们用的最多的是<code>RequestMappingHandlerMapping</code>。我们以它为例子：</p>
-<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/image-20240521215220495.png" srcset="/img/loading.gif" lazyload alt="" /></p>
+<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/image-20240521215220495.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>HandlerMapping是最顶层的接口。它通过<code>getHandler</code>方法返回<code>HandlerExecutionChain</code></p>
-<h2 id="53-gethandler"><a class="markdownIt-Anchor" href="#53-gethandler"></a> 5.3 getHandler</h2>
+<h2 id="5-3-getHandler">5.3 getHandler</h2>
 <p>HandlerMapping接口就一个方法：</p>
-<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/image-20240521155233440.png" srcset="/img/loading.gif" lazyload alt="" /></p>
+<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/image-20240521155233440.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <p>该方法由<code>AbstractHandlerMapping</code>子类实现。</p>
-<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/image-20240521155432687.png" srcset="/img/loading.gif" lazyload alt="" /></p>
+<p><img src="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/framework/spring/spring-mvc/image-20240521155432687.png" srcset="/img/loading.gif" lazyload alt=""></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java">	<span class="hljs-meta">@Override</span><br>	<span class="hljs-meta">@Nullable</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> HandlerExecutionChain <span class="hljs-title function_">getHandler</span><span class="hljs-params">(HttpServletRequest request)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    <span class="hljs-comment">//获取Handler</span><br>		<span class="hljs-type">Object</span> <span class="hljs-variable">handler</span> <span class="hljs-operator">=</span> getHandlerInternal(request);<br>	  ... ...<br><br>    <span class="hljs-comment">//获取HandlerExecutionChain</span><br>		<span class="hljs-type">HandlerExecutionChain</span> <span class="hljs-variable">executionChain</span> <span class="hljs-operator">=</span> getHandlerExecutionChain(handler, request);<br>    <br>    <span class="hljs-comment">//是否是CORS请求，是则对其处理</span><br>		<span class="hljs-keyword">if</span> (CorsUtils.isCorsRequest(request)) &#123;<br>			<span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">globalConfig</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.globalCorsConfigSource.getCorsConfiguration(request);<br>			<span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">handlerConfig</span> <span class="hljs-operator">=</span> getCorsConfiguration(handler, request);<br>			<span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> (globalConfig != <span class="hljs-literal">null</span> ? globalConfig.combine(handlerConfig) : handlerConfig);<br>			executionChain = getCorsHandlerExecutionChain(request, executionChain, config);<br>		&#125;<br>		<span class="hljs-keyword">return</span> executionChain;<br>	&#125;<br><br><span class="hljs-comment">//AbstractHandlerMapping---&gt;getHandler(HttpServletRequest request)</span><br></code></pre></td></tr></table></figure>
 <blockquote>
 <p>前面DispatcherServlet请求流程我们讲过。HandlerMapping返回的是HandlerExecutionChain-执行链</p>
 </blockquote>
 <p>我们看：<code>Object handler = getHandlerInternal(request);</code>返回处理器</p>
-<h3 id="531-gethandlerinternalhttpservletrequest-request"><a class="markdownIt-Anchor" href="#531-gethandlerinternalhttpservletrequest-request"></a> 5.3.1 getHandlerInternal(HttpServletRequest request)</h3>
+<h3 id="5-3-1-getHandlerInternal-HttpServletRequest-request">5.3.1 getHandlerInternal(HttpServletRequest request)</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractHandlerMethodMapping</span>&lt;T&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractHandlerMapping</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">InitializingBean</span> &#123;<br>  <br><span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">protected</span> HandlerMethod <span class="hljs-title function_">getHandlerInternal</span><span class="hljs-params">(HttpServletRequest request)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    <br>    <span class="hljs-comment">//获取请求的查找路径</span><br>		<span class="hljs-type">String</span> <span class="hljs-variable">lookupPath</span> <span class="hljs-operator">=</span> getUrlPathHelper().getLookupPathForRequest(request);<br>	  ... ...<br>      <br>    <span class="hljs-comment">//查找匹配的处理器方法 </span><br>		<span class="hljs-type">HandlerMethod</span> <span class="hljs-variable">handlerMethod</span> <span class="hljs-operator">=</span> lookupHandlerMethod(lookupPath, request);<br>    <br>    ... ...<br>    <span class="hljs-comment">//返回处理器方法</span><br>    <span class="hljs-keyword">return</span> (handlerMethod != <span class="hljs-literal">null</span> ? handlerMethod.createWithResolvedBean() : <span class="hljs-literal">null</span>);<br>	&#125;<br>&#125;<br><br><span class="hljs-comment">//AbstractHandlerMethodMapping类----&gt;getHandlerInternal(HttpServletRequest request)</span><br></code></pre></td></tr></table></figure>
-<h3 id="532-urlpathhelper"><a class="markdownIt-Anchor" href="#532-urlpathhelper"></a> 5.3.2 UrlPathHelper</h3>
+<h3 id="5-3-2-UrlPathHelper">5.3.2 UrlPathHelper</h3>
 <p><code>UrlPathHelper</code> 是Spring MVC中用于处理和解析URL路径的一个实用类。它提供了各种方法来处理URL路径，例如获取请求的实际路径、移除上下文路径、移除Servlet路径等。</p>
 <p>返回的路径并不是完整的URL路径，而是相对于应用上下文（context path）和Servlet映射路径的相对路径。这个相对路径通常是用于确定请求应该由哪个控制器或处理器处理的路径。</p>
 <p><strong>示例</strong>：假设应用部署在<code>/myapp</code>，Servlet映射路径为<code>/api/*</code>，客户端发送了一个请求到<code>http://example.com/myapp/api/products/123</code>。则</p>
@@ -479,9 +479,9 @@
 <p><code>getLookupPathForRequest(request)</code>返回的查找路径会是：<code>/products/123</code>。这个路径是相对于应用和Servlet映射路径的。</p>
 <p>上文就是通过Request获取到路径。然后根据路径去匹配到controller中的Handler。其实并没有那么高大上，就是controller中的一个方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloController</span>&#123;<br> <br>    <span class="hljs-comment">//真实访问地址 : 项目名/hello</span><br>    <span class="hljs-meta">@RequestMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">hello</span><span class="hljs-params">(Model model)</span>&#123;<br> <br>        <span class="hljs-comment">//封装数据</span><br>        model.addAttribute(<span class="hljs-string">&quot;msg&quot;</span>,<span class="hljs-string">&quot;HelloAnnotationMVC!&quot;</span>);<br> <br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;<span class="hljs-comment">//会被视图解析器处理</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="533-lookuphandlermethod"><a class="markdownIt-Anchor" href="#533-lookuphandlermethod"></a> 5.3.3 lookupHandlerMethod</h3>
+<h3 id="5-3-3-lookupHandlerMethod">5.3.3 lookupHandlerMethod</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Nullable</span><br>	<span class="hljs-keyword">protected</span> HandlerMethod <span class="hljs-title function_">lookupHandlerMethod</span><span class="hljs-params">(String lookupPath, HttpServletRequest request)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>		List&lt;Match&gt; matches = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>    <span class="hljs-comment">//获取当前路径下所有的处理器方法</span><br>		List&lt;T&gt; directPathMatches = <span class="hljs-built_in">this</span>.mappingRegistry.getMappingsByUrl(lookupPath);<br>    <br>    <span class="hljs-comment">//获取match的path</span><br>		<span class="hljs-keyword">if</span> (directPathMatches != <span class="hljs-literal">null</span>) <br>			addMatchingMappings(directPathMatches, matches, request);<br>		&#125;<br>		<span class="hljs-keyword">if</span> (matches.isEmpty()) &#123;<br>			addMatchingMappings(<span class="hljs-built_in">this</span>.mappingRegistry.getMappings().keySet(), matches, request);<br>		&#125;<br><br>		<span class="hljs-keyword">if</span> (!matches.isEmpty()) &#123;<br>			<br>      <span class="hljs-comment">//获取一个处理器</span><br>			<span class="hljs-type">Match</span> <span class="hljs-variable">bestMatch</span> <span class="hljs-operator">=</span> matches.get(<span class="hljs-number">0</span>);<br>      <br>      ... ...<br>      <br>			handleMatch(bestMatch.mapping, lookupPath, request);<br>			<span class="hljs-keyword">return</span> bestMatch.handlerMethod;<br>		&#125;<br>		<br>	&#125;<br><br><span class="hljs-comment">//AbstractHandlerMethodMapping类----&gt;lookupHandlerMethod</span><br></code></pre></td></tr></table></figure>
-<h1 id="6为什么通过lookuppath返回的是一个list集合处理器"><a class="markdownIt-Anchor" href="#6为什么通过lookuppath返回的是一个list集合处理器"></a> 6.为什么通过lookupPath返回的是一个List集合处理器？</h1>
+<h1>6.为什么通过lookupPath返回的是一个List集合处理器？</h1>
 <p>我们发现：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取当前路径下所有的处理器方法</span><br>List&lt;T&gt; directPathMatches = <span class="hljs-built_in">this</span>.mappingRegistry.getMappingsByUrl(lookupPath);<br></code></pre></td></tr></table></figure>
 <p>前面不是说根据因为给定的URL路径返回一个处理器吗，为什么代码里会返回一个list集合？其实是因为:</p>
@@ -493,27 +493,27 @@
 <blockquote>
 <p><code>因为给定的URL路径可能对应多个处理器方法。这种设计允许处理不同的HTTP方法（如GET、POST、PUT、DELETE等）或其他请求条件（如请求参数、头信息等）在同一URL路径上的映射</code>。</p>
 </blockquote>
-<h2 id="61-原理解析"><a class="markdownIt-Anchor" href="#61-原理解析"></a> 6.1 原理解析</h2>
+<h2 id="6-1-原理解析">6.1 原理解析</h2>
 <p>Spring MVC的<code>RequestMappingHandlerMapping</code>类负责管理URL路径到处理器方法的映射关系。每个URL路径可能有多个处理器方法映射，这些处理器方法可以处理相同路径但不同条件的请求。例如，同一个路径<code>/api/users</code>可以有GET和POST方法处理器。</p>
-<h2 id="62-查找过程"><a class="markdownIt-Anchor" href="#62-查找过程"></a> 6.2 查找过程</h2>
+<h2 id="6-2-查找过程">6.2 查找过程</h2>
 <p>当一个请求到达时，Spring MVC会执行以下步骤：</p>
 <ol>
 <li><strong>获取路径</strong>：从请求中提取URL路径。</li>
 <li><strong>查找映射</strong>：使用<code>getMappingsByUrl</code>方法从<code>MappingRegistry</code>中获取对应路径的所有处理器方法。</li>
 <li><strong>匹配方法</strong>：遍历返回的处理器方法列表，根据请求的具体条件（如HTTP方法、请求参数等）找到合适的处理器方法</li>
 </ol>
-<h1 id="7list集合存储的是什么"><a class="markdownIt-Anchor" href="#7list集合存储的是什么"></a> 7.List集合存储的是什么？</h1>
+<h1>7.List集合存储的是什么？</h1>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-built_in">this</span>.mappingRegistry--&gt;<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MappingRegistry</span> &#123;<br><br>		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;T, MappingRegistration&lt;T&gt;&gt; registry = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br><br>		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;T, HandlerMethod&gt; mappingLookup = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashMap</span>&lt;&gt;();<br><br>		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> MultiValueMap&lt;String, T&gt; urlLookup = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedMultiValueMap</span>&lt;&gt;();<br><br>		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;String, List&lt;HandlerMethod&gt;&gt; nameLookup = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;();<br><br>		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;HandlerMethod, CorsConfiguration&gt; corsLookup = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;();<br><br>		<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">ReentrantReadWriteLock</span> <span class="hljs-variable">readWriteLock</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReentrantReadWriteLock</span>();<br><br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * 返回所有映射和处理程序方法。线程不安全</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">public</span> Map&lt;T, HandlerMethod&gt; <span class="hljs-title function_">getMappings</span><span class="hljs-params">()</span> &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.mappingLookup;<br>		&#125;<br><br>		<span class="hljs-comment">//返回给定URL路径的匹配项。线程不安全</span><br>		<span class="hljs-meta">@Nullable</span><br>		<span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title function_">getMappingsByUrl</span><span class="hljs-params">(String urlPath)</span> &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.urlLookup.get(urlPath);<br>		&#125;<br>		... ...<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>在Spring MVC中，<code>MappingRegistry</code>是一个内部类，用于维护请求映射与处理器方法的关系。<code>urlLookup</code>是<code>MappingRegistry</code>中的一个重要成员变量，它用于快速查找特定URL路径对应的所有映射信息。</p>
-<h2 id="71urllookup变量"><a class="markdownIt-Anchor" href="#71urllookup变量"></a> 7.1urlLookup变量</h2>
+<h2 id="7-1urlLookup变量">7.1urlLookup变量</h2>
 <p><code>urlLookup</code>是一个<code>MultiValueMap</code>，用于将URL路径映射到对应的<code>RequestMappingInfo</code>列表。存储的是一个URL路径到<code>RequestMappingInfo</code>的映射关系，其中：</p>
 <ul>
 <li><strong>Key</strong>：一个字符串，表示URL路径（通常是控制器方法上的<code>@RequestMapping</code>路径）。</li>
 <li><strong>Value</strong>：一个列表，包含与该URL路径关联的所有<code>RequestMappingInfo</code>实例。</li>
 </ul>
-<h2 id="72-requestmappinginfo"><a class="markdownIt-Anchor" href="#72-requestmappinginfo"></a> 7.2 RequestMappingInfo</h2>
+<h2 id="7-2-RequestMappingInfo">7.2 RequestMappingInfo</h2>
 <p><code>RequestMappingInfo</code>是Spring MVC中用于封装请求映射信息的类。它包含了请求路径、HTTP方法、参数、头信息等条件，用于确定哪个处理器方法应该处理特定的HTTP请求。</p>
-<h3 id="721-示例"><a class="markdownIt-Anchor" href="#721-示例"></a> 7.2.1 示例</h3>
+<h3 id="7-2-1-示例">7.2.1 示例</h3>
 <p>假设我们有如下控制器方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(&quot;/api&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ApiController</span> &#123;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/users&quot;)</span><br>    <span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;User&gt;&gt; <span class="hljs-title function_">getUsers</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 处理请求</span><br>        <span class="hljs-keyword">return</span> ResponseEntity.ok(<span class="hljs-comment">/* some user list */</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@PostMapping(&quot;/users&quot;)</span><br>    <span class="hljs-keyword">public</span> ResponseEntity&lt;User&gt; <span class="hljs-title function_">createUser</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> User user)</span> &#123;<br>        <span class="hljs-comment">// 创建用户</span><br>        <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.CREATED).body(<span class="hljs-comment">/* created user */</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>在注册处理器方法时，<code>urlLookup</code>会存储如下信息：</p>
@@ -526,7 +526,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="722-multivaluemap"><a class="markdownIt-Anchor" href="#722-multivaluemap"></a> 7.2.2 MultiValueMap</h3>
+<h3 id="7-2-2-MultiValueMap">7.2.2 MultiValueMap</h3>
 <p>我们一看:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> MultiValueMap&lt;String, T&gt; urlLookup = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedMultiValueMap</span>&lt;&gt;();<br></code></pre></td></tr></table></figure>
 <p>明明是key- value形式，为什么是key- T（List）呢？其实是因为：</p>
@@ -534,7 +534,7 @@
 <blockquote>
 <p><code>urlLookup</code>使用<code>MultiValueMap</code>的原因是，同一个URL路径可能会对应多个<code>RequestMappingInfo</code>实例。例如，同一个路径可以支持不同的HTTP方法（GET、POST等），或者根据不同的请求参数、头信息等来区分处理器方法。<code>MultiValueMap</code>允许一个Key对应多个Value，非常适合这种情况。</p>
 </blockquote>
-<hr />
+<hr>
 <p><strong>博客说明</strong></p>
 <blockquote>
 <p>文章所涉及的资料来自互联网整理和个人总结，意在于个人学习和经验汇总，不用于任何的商业用途。如有侵权，请联系本人删除。谢谢！</p>
