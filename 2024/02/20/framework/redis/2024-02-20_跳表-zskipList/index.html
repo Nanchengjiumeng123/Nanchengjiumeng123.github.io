@@ -22,8 +22,8 @@
     <meta name="description" content="1.跳跃表概述 跳跃表（skiplist）是一种随机化的数据， 由 William Pugh 在论文《Skip lists: a probabilistic alternative to balanced trees》中提出， 跳跃表以有序的方式在层次化的链表中保存元素， 效率和平衡树媲美 —— 查找、删除、添加等操作都可以在对数期望时间下完成， 并且比起平衡树来说， 跳跃表的实现要简单直观得多">
 <meta property="og:type" content="article">
 <meta property="og:title" content="跳跃表-zskipList">
-<meta property="og:url" content="https://nanchengjiumeng123.top/2024/02/20/framework/redis/2024-02-20_%E8%B7%B3%E8%A1%A8-zskipList/index.html">
-<meta property="og:site_name" content="nanchengjiumeng123.top">
+<meta property="og:url" content="https://nanchengjiumeng123.github.io/2024/02/20/framework/redis/2024-02-20_%E8%B7%B3%E8%A1%A8-zskipList/index.html">
+<meta property="og:site_name" content="nanchengjiumeng123.github.io">
 <meta property="og:description" content="1.跳跃表概述 跳跃表（skiplist）是一种随机化的数据， 由 William Pugh 在论文《Skip lists: a probabilistic alternative to balanced trees》中提出， 跳跃表以有序的方式在层次化的链表中保存元素， 效率和平衡树媲美 —— 查找、删除、添加等操作都可以在对数期望时间下完成， 并且比起平衡树来说， 跳跃表的实现要简单直观得多">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/java_se/throwable/mmexport1664532258070.jpg">
@@ -36,7 +36,7 @@
   
   
   
-  <title>跳跃表-zskipList - nanchengjiumeng123.top</title>
+  <title>跳跃表-zskipList - nanchengjiumeng123.github.io</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -74,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"nanchengjiumeng123.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"nanchengjiumeng123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -590,7 +590,7 @@ About the Append Only durability &amp; speed, I don’t think it is a good idea 
   <div class="license-box my-3">
     <div class="license-title">
       <div>跳跃表-zskipList</div>
-      <div>https://nanchengjiumeng123.top/2024/02/20/framework/redis/2024-02-20_跳表-zskipList/</div>
+      <div>https://nanchengjiumeng123.github.io/2024/02/20/framework/redis/2024-02-20_跳表-zskipList/</div>
     </div>
     <div class="license-meta">
       

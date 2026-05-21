@@ -22,8 +22,8 @@
     <meta name="description" content="1.垃圾检测算法 若一个对象不被任何对象或变量引用，那么它就是无效对象，需要被回收。  1.1 引用计数法 在对象头维护着一个 counter 计数器，当对象增加一个引用时计数器加 1，引用失效时计数器减 1。引用计数为 0 的对象可被回收。 引用计数算法的实现简单，判定效率也很高，在大部分情况下它都是一个不错的算法。但是主流的 Java 虚拟机里没有选用引用计数算法来管理内存，主要是因为它很难">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GC算法">
-<meta property="og:url" content="https://nanchengjiumeng123.top/2022/10/27/java_se/jvm/2022-10-27_GC%E7%AE%97%E6%B3%95/index.html">
-<meta property="og:site_name" content="nanchengjiumeng123.top">
+<meta property="og:url" content="https://nanchengjiumeng123.github.io/2022/10/27/java_se/jvm/2022-10-27_GC%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="nanchengjiumeng123.github.io">
 <meta property="og:description" content="1.垃圾检测算法 若一个对象不被任何对象或变量引用，那么它就是无效对象，需要被回收。  1.1 引用计数法 在对象头维护着一个 counter 计数器，当对象增加一个引用时计数器加 1，引用失效时计数器减 1。引用计数为 0 的对象可被回收。 引用计数算法的实现简单，判定效率也很高，在大部分情况下它都是一个不错的算法。但是主流的 Java 虚拟机里没有选用引用计数算法来管理内存，主要是因为它很难">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/java_se/jvm/banner/mmexport1650948735989.jpg">
@@ -36,7 +36,7 @@
   
   
   
-  <title>GC算法 - nanchengjiumeng123.top</title>
+  <title>GC算法 - nanchengjiumeng123.github.io</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -74,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"nanchengjiumeng123.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"nanchengjiumeng123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -501,7 +501,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>GC算法</div>
-      <div>https://nanchengjiumeng123.top/2022/10/27/java_se/jvm/2022-10-27_GC算法/</div>
+      <div>https://nanchengjiumeng123.github.io/2022/10/27/java_se/jvm/2022-10-27_GC算法/</div>
     </div>
     <div class="license-meta">
       

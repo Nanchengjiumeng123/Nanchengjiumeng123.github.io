@@ -22,8 +22,8 @@
     <meta name="description" content="HotSpot 虚拟机对象 Java是一门面向对象的编程语言，Java程序运行过程中无时无刻都有对象被创建出来。在语言层面上，创建对象通常（例外：复制、反序列化）仅仅是一个new关键字而已，而在虚拟机中，对象（文中讨论的对象限于普通Java对象，不包括数组和Class对象等）的创建又是怎样一个过程呢？  1.对象的内存布局 HotSpot虚拟机中，对象在内存中存储的布局可以分为三块区域：   对">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HotSpot虚拟机对象">
-<meta property="og:url" content="https://nanchengjiumeng123.top/2022/10/15/java_se/jvm/2022-10-15_HotSpot%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AF%B9%E8%B1%A1/index.html">
-<meta property="og:site_name" content="nanchengjiumeng123.top">
+<meta property="og:url" content="https://nanchengjiumeng123.github.io/2022/10/15/java_se/jvm/2022-10-15_HotSpot%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:site_name" content="nanchengjiumeng123.github.io">
 <meta property="og:description" content="HotSpot 虚拟机对象 Java是一门面向对象的编程语言，Java程序运行过程中无时无刻都有对象被创建出来。在语言层面上，创建对象通常（例外：复制、反序列化）仅仅是一个new关键字而已，而在虚拟机中，对象（文中讨论的对象限于普通Java对象，不包括数组和Class对象等）的创建又是怎样一个过程呢？  1.对象的内存布局 HotSpot虚拟机中，对象在内存中存储的布局可以分为三块区域：   对">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://nanchengjiumeng123.oss-cn-beijing.aliyuncs.com/categories/java_se/jvm/banner/mmexport1650522727672.jpg">
@@ -36,7 +36,7 @@
   
   
   
-  <title>HotSpot虚拟机对象 - nanchengjiumeng123.top</title>
+  <title>HotSpot虚拟机对象 - nanchengjiumeng123.github.io</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -74,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"nanchengjiumeng123.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"nanchengjiumeng123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -424,7 +424,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>HotSpot虚拟机对象</div>
-      <div>https://nanchengjiumeng123.top/2022/10/15/java_se/jvm/2022-10-15_HotSpot 虚拟机对象/</div>
+      <div>https://nanchengjiumeng123.github.io/2022/10/15/java_se/jvm/2022-10-15_HotSpot 虚拟机对象/</div>
     </div>
     <div class="license-meta">
       
